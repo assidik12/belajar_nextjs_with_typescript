@@ -5,11 +5,12 @@ type Props = {
   children: React.ReactNode;
 };
 
-const disableNavbar = ["/auth/login", "/auth/register"];
+const disableNavbar = ["/auth/login", "/auth/register", "/404"];
 
 const AppShell = (props: Props) => {
   const { pathname } = useRouter();
   const { children } = props;
+
   return (
     <main>
       {!disableNavbar.includes(pathname) && <Navbar />}
