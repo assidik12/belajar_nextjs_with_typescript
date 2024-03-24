@@ -8,7 +8,8 @@
   }
   &__content {
     display: flex;
-    margin-top: 5px;
+    margin: 5px;
+    flex-wrap: wrap;
 
     &__skelaton {
       width: 25%;
