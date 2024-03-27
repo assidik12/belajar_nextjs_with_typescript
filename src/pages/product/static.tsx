@@ -12,9 +12,9 @@ const productPage = (props: { products: Product[] }) => {
 
 export default productPage;
 
-// untuk melakukan server side rendering menggunakan function tersendiri tidak menggunakan useEffect dan data akan berubah jika terjadi perubahan pada data meski tidak di build
+// sama seperti ssr, static side rendering tidak menggunakan useEffect dan data yang dinamis tidak akan berubah jika tidak melalui build
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   // fetch data from an API
   const data = await fetch("http://localhost:3000/api/product");
   const response = await data.json();

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-const detailProduct = () => {
+const DetailProduct = () => {
   const { query } = useRouter();
   return (
     <div>
@@ -9,4 +9,4 @@ const detailProduct = () => {
   );
 };
 
-export default detailProduct;
+export default DetailProduct;

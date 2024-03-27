@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "@/utils/swr/fatcher";
 
-const productPage = () => {
+const ProductPage = () => {
   const [login, setLogin] = useState(true);
   const [products, setProducts] = useState([]);
   const { push } = useRouter();
@@ -16,14 +16,14 @@ const productPage = () => {
 
   const { data, error, isLoading } = useSWR("/api/product", fetcher);
 
-  // useEffect(() => {
-  //   fetch("/api/product").then((res) => {
-  //     res.json().then((data) => {
-  //       setProducts(data.data);
-  //       setLogin(true);
-  //     });
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetch("/api/product").then((res) => {
+      res.json().then((data) => {
+        setProducts(data.data);
+        setLogin(true);
+      });
+    });
+  }, []);
   return (
     <div>
       <ProductView products={isLoading ? [] : data.data} />
@@ -31,4 +31,4 @@ const productPage = () => {
   );
 };
 
-export default productPage;
+export default ProductPage;

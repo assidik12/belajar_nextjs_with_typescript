@@ -1,6 +1,6 @@
-import { Product } from "@/pages/product/product.file";
+// import { Product } from "@/pages/product/product.file";
 import styles from "./Product.module.scss";
-
+import { Product } from "@/types/product.type";
 const ProductView = ({ products }: { products: Product[] }) => {
   return (
     <div className={styles.product}>
