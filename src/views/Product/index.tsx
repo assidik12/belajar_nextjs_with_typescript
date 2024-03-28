@@ -1,4 +1,4 @@
-// import { Product } from "@/pages/product/product.file";
+import Link from "next/link";
 import styles from "./Product.module.scss";
 import { Product } from "@/types/product.type";
 const ProductView = ({ products }: { products: Product[] }) => {
@@ -10,14 +10,14 @@ const ProductView = ({ products }: { products: Product[] }) => {
         {products.length > 0 ? (
           <>
             {products.map((product: Product) => (
-              <div key={product.id} className={styles.product__content__items}>
+              <Link href={`/product/${product.id}`} key={product.id} className={styles.product__content__items}>
                 <div className={styles.product__content__items__image}>
                   <img src={product.image} width={250} height={250} alt={product.name} />
                 </div>
                 <h4 className={styles.product__content__name}>{product.name}</h4>
                 <h4 className={styles.product__content__category}>{product.category}</h4>
                 <h4 className={styles.product__content__price}>{product.price.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}</h4>
-              </div>
+              </Link>
             ))}
           </>
         ) : (
