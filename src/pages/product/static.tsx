@@ -22,5 +22,6 @@ export async function getStaticProps() {
     props: {
       products: response.data,
     },
+    // revelidate: 10,
   };
 }
