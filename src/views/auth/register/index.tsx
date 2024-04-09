@@ -7,6 +7,7 @@ import { useState } from "react";
 const RegisterViews = () => {
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: any) => {
     setLoading(true);
@@ -29,17 +30,24 @@ const RegisterViews = () => {
       setLoading(false);
       push("/auth/login");
     } else {
-      console.log(response);
+      if (data.password.length < 10 || data.password === "") {
+        setLoading(false);
+        setError("password minimal 10 karakter");
+      } else {
+        setLoading(false);
+        setError("email sudah terdaftarkan!!");
+      }
     }
   };
   return (
     <div className={style.register}>
+      {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <InputFrom name="fullname" label="Nama Lengkap" type="text" placeholder="Nama Lengkap" />
         <InputFrom name="email" label="Email" type="email" placeholder="Email" />
         <InputFrom name="password" label="Password" type="password" placeholder="Password" />
         <Button loading={loading} type="submit">
-          daftar
+          {loading ? "..." : "daftar"}
         </Button>
       </form>
       <p>

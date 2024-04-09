@@ -1,5 +1,7 @@
+import { signIn } from "@/utils/firebase/service";
 import nextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
 
 const nextOptions: NextAuthOptions = {
   session: {
@@ -10,24 +12,21 @@ const nextOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        fullname: { label: "fullname", type: "text" },
         email: { label: "email", type: "email" },
         password: { label: "password", type: "password" },
       },
       async authorize(credentials: any) {
-        const { email, password, fullname } = credentials as {
+        const { email, password } = credentials as {
           email: string;
           password: string;
           fullname: string;
         };
-        const user: any = {
-          id: 1,
-          email,
-          password,
-          fullname,
-        };
+        const user: any = await signIn({ email });
         if (user) {
-          return user;
+          const passwordConfirm = await bcrypt.compare(password, user.password);
+          if (passwordConfirm) {
+            return user;
+          }
         } else {
           return null;
         }
@@ -38,6 +37,7 @@ const nextOptions: NextAuthOptions = {
     async jwt({ token, user, account }: any) {
       if (account?.provider === "credentials") {
         token.email = user.email;
+        token.role = user.role;
         token.fullname = user.fullname;
       }
       return token;
@@ -49,8 +49,14 @@ const nextOptions: NextAuthOptions = {
       if (token.fullname) {
         session.user.fullname = token.fullname;
       }
+      if (token.role) {
+        session.user.role = token.role;
+      }
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth/login",
   },
 };
 

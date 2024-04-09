@@ -1,23 +1,45 @@
-import { useRouter } from "next/router";
 import Link from "next/link";
 import style from "./Login.module.scss";
 import InputFrom from "../../../components/elements/input/index";
 import Button from "../../../components/elements/button/index";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 const LoginViews = () => {
-  const { push } = useRouter();
-  const handleLogin = () => {
-    push("/product");
+  const { push, query } = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const callbackUrl = (query.callbackUrl as string) || "/";
+
+  const handleSubmit = async (e: any) => {
+    setLoading(true);
+    e.preventDefault();
+    const res: any = await signIn("credentials", {
+      redirect: false,
+      email: e.target.email.value,
+      password: e.target.password.value,
+      callbackUrl,
+    });
+    if (!res?.error) {
+      setLoading(false);
+      push(callbackUrl);
+    } else {
+      setLoading(false);
+      setError(res.error);
+    }
   };
   return (
     <div className={style.login}>
-      {/* <button onClick={() => handleLogin()}>Login</button> */}
-      <form>
+      {error && <p>{error}</p>}
+      <form onSubmit={handleSubmit}>
         <InputFrom name="email" label="Email" type="email" placeholder="Email" />
         <InputFrom name="password" label="Password" type="password" placeholder="Password" />
-        <Button>masuk</Button>
+        <Button loading={loading} type="submit">
+          {loading ? "..." : "masuk"}
+        </Button>
       </form>
-      <p style={{ textAlign: "center", color: "red" }}>
-        belum punya account? silahkan daftar di sini <Link href={"/auth/register"}>Daftar</Link>
+      <p>
+        sudah punya account? silahkan login di sini <Link href="/auth/register">register</Link>
       </p>
     </div>
   );
