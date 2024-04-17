@@ -38,9 +38,22 @@ const LoginViews = () => {
           {loading ? "..." : "masuk"}
         </Button>
       </form>
-      <p>
-        sudah punya account? silahkan login di sini <Link href="/auth/register">register</Link>
-      </p>
+      <div>
+        <Button
+          // loading={loading}
+          onclick={() => {
+            signIn("google", {
+              callbackUrl,
+              redirect: false,
+            });
+          }}
+        >
+          login dengan google
+        </Button>
+        <p>
+          sudah punya account? silahkan login di sini <Link href="/auth/register">register</Link>
+        </p>
+      </div>
     </div>
   );
 };

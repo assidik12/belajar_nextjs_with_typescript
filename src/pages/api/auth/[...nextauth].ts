@@ -1,7 +1,8 @@
-import { signIn } from "@/utils/firebase/service";
+import { signIn, signInWithGoogle } from "@/utils/firebase/service";
 import nextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import GoogleProvider from "next-auth/providers/google";
 
 const nextOptions: NextAuthOptions = {
   session: {
@@ -32,6 +33,10 @@ const nextOptions: NextAuthOptions = {
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_OAUTH_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SCREET || "",
+    }),
   ],
   callbacks: {
     async jwt({ token, user, account }: any) {
@@ -40,6 +45,25 @@ const nextOptions: NextAuthOptions = {
         token.role = user.role;
         token.fullname = user.fullname;
       }
+      if (account?.provider === "google") {
+        const data = {
+          fullname: user.name,
+          email: user.email,
+          image: user.image,
+          type: "google",
+        };
+
+        await signInWithGoogle(data, (result: any) => {
+          if (result.status) {
+            token.email = result.data.email;
+            token.fullname = result.data.fullname;
+            token.type = result.data.type;
+            token.image = result.data.image;
+            token.role = result.data.role;
+          }
+        });
+      }
+
       return token;
     },
     async session({ session, token }: any) {
@@ -52,9 +76,14 @@ const nextOptions: NextAuthOptions = {
       if (token.role) {
         session.user.role = token.role;
       }
+      if (token.image) {
+        session.user.image = token.image;
+      }
+
       return session;
     },
   },
+
   pages: {
     signIn: "/auth/login",
   },
