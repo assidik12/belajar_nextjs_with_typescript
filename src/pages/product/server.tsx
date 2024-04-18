@@ -1,7 +1,7 @@
 import ProductView from "@/views/Product";
 import { Product } from "@/types/product.type";
 
-const productPage = (props: { products: Product[] }) => {
+const ProductPage = (props: { products: Product[] }) => {
   const { products } = props;
   return (
     <div>
@@ -10,7 +10,7 @@ const productPage = (props: { products: Product[] }) => {
   );
 };
 
-export default productPage;
+export default ProductPage;
 
 // untuk melakukan server side rendering menggunakan function tersendiri tidak menggunakan useEffect dan data akan berubah jika terjadi perubahan pada data meski tidak di build
 
