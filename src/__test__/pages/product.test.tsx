@@ -1,8 +1,6 @@
 import "@testing-library/jest-dom";
-import ProductPage from "@/pages/product/server";
+import ProductPage from "@/pages/product/index";
 import { render, screen } from "@testing-library/react";
-
-import { Product } from "@/types/product.type";
 
 jest.mock("next/router", () => ({
   returns: {
@@ -27,7 +25,8 @@ jest.mock("next/router", () => ({
 
 describe("product page", () => {
   it("render product page", () => {
-    const page = render(<ProductPage products={[]} />);
+    const page = render(<ProductPage />);
+    expect(screen.getByTitle("productPage")).toMatchSnapshot();
     expect(page).toMatchSnapshot();
   });
 });

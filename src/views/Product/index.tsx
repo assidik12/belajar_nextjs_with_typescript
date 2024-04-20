@@ -8,9 +8,9 @@ const ProductView = ({ products }: { products: Product[] }) => {
       <h1 className={styles.product__title}>Product Page</h1>
 
       <div className={styles.product__content}>
-        {products.length > 0 ? (
+        {products?.length > 0 ? (
           <>
-            {products.map((product: Product) => (
+            {products?.map((product: Product) => (
               <Link href={`/product/${product.id}`} key={product.id} className={styles.product__content__items}>
                 <div className={styles.product__content__items__image}>
                   <Image src={product.image} width={250} height={250} alt={product.name} />

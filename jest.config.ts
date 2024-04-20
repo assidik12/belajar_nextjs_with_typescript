@@ -12,7 +12,25 @@ const config: Config = {
   testEnvironment: "jsdom",
   modulePaths: ["<rootDir>/src/"],
   collectCoverage: true,
-  collectCoverageFrom: ["<rootDir>/src/**/*.{ts,tsx}", "!<rootDir>/src/**/*.d.ts", "!<rootDir>/src/**/types.ts", "!**/coverage/**", "!**/node_modules/**", "!**/dist/**", "!**/types/**", "!**/jest.config.ts", "!**/next-env.d.ts"],
+  collectCoverageFrom: [
+    "<rootDir>/src/**/*.{ts,tsx}",
+    "!<rootDir>/src/**/*.d.ts",
+    "!<rootDir>/src/**/types.ts",
+    "!**/coverage/**",
+    "!**/node_modules/**",
+    "!**/dist/**",
+    "!**/types/**",
+    "!**/jest.config.ts",
+    "!**/next-env.d.ts",
+    "!**/next.config.js",
+    "!**/next-i18next.config.js",
+    "!**/babel.config.js",
+    "!**/postcss.config.js",
+    "!**/webpack.config.js",
+    "!**/tsconfig.json",
+    "!<rootDir>/src/middlewares/**",
+  ],
+
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`product page render product page 1`] = `
+exports[`product page render product page 1`] = `undefined`;
+
+exports[`product page render product page 2`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
